@@ -1,0 +1,31 @@
+server:
+  port: 8040
+
+#告诉nacos服务的名称 nacos服务器的地址 有默认值localhost:8848 默认命名空间为public
+spring:
+  application:
+    name: order-openfeign-service
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        username: nacos
+        password: nacos
+        namespace: public
+ #springboot默认的日志级别是info ,feign的debug日志级别就不会输出 所以要配置  这里针对这个feign的接口日志级别进行配置 不是全局
+logging:
+  level:
+    com.xie.feign: debug
+#feign 日志局部配置 通过文件来指定
+feign:
+  client:
+    config:
+      product-service:
+        loggerLevel: BASIC
+        #连接超时时间默认2s
+        connectTimeout: 5000
+        #请求处理超时时间默认5s
+        readTimeout: 10000
+        #配置自定义的feign拦截器
+        requestInterceptors[0]:
+          com.xie.interceptor.feign.CustomFeignInterceptor

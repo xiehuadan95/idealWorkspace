@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- p命名空间用于简化setter方式，c命名空间用于简化构造函数方式的依赖注入-->
+<!--使用p命名空间简化基于setter属性注入xml配置 不支持复杂数据类型-->
+    <bean class="com.xie.beans.Wife" id="wife2" p:name="迪丽热巴"></bean>
+    <bean class="com.xie.beans.Person" p:wife-ref="wife2"></bean>
+
+    <!--可使用name 设置别名，可用逗号空格等 设置多个别名-->
+    <bean class="com.xie.beans.User" id="user" name="user2 user3">
+        <description>用来描述一个bean是干啥的</description>
+    </bean>
+    <!--  可以导入其他spring的xml配置文件
+        <import resource="spring-ioc.xml"></import>
+        -->
+    <!--可以设置别名-->
+    <alias name="user" alias="zhangsan"></alias>
+    <!--********************************依赖注入*******************************************-->
+<!--基于setter的依赖注入-->
+    <bean class="com.xie.beans.User" id="user4">
+        <property name="id" value="1"></property>
+        <property name="username" value="貂蝉"></property>
+        <property name="realname" value="王麻子"></property>
+    </bean>
+<!--基于构造函数的依赖注入
+    1.基于name属性设置的构造函数参数
+    2.可以只有value属性， 会按照顺序进行赋值
+    3.如果省略name属性，一定要注意参数顺序，如果顺序错乱可以使用name或者index
+    4.还可以使用type:java.lang.Integer 可以规定参数类型 一般没什么用
+-->
+    <bean class="com.xie.beans.User" id="user5">
+        <constructor-arg value="2"></constructor-arg>
+        <constructor-arg index="1" value="五六七"></constructor-arg>
+        <constructor-arg name="realname" value="川普"></constructor-arg>
+    </bean>
+
+<!--复杂数据类型的依赖注入-->
+    <bean class="com.xie.beans.Wife" id="wife">
+        <property name="name" value="马儿扎哈"></property>
+        <property name="age" value="18"></property>
+    </bean>
+    <bean class="com.xie.beans.Person" id="person">
+        <property name="id" value="1">  </property>
+<!--设置null-->
+        <property name="name">
+            <null></null>
+        </property>
+        <property name="gender" value=""></property>
+<!--wife是对象，可以引用另外一个bean-->
+        <property name="wife" ref="wife"></property>
+<!-- 可以使用内部bean 来进行依赖注入-->
+<!--        <property name="wife">-->
+<!--            <bean class="com.xie.beans.Wife">-->
+<!--                <property name="name" value="企鹅"></property>-->
+<!--                <property name="age" value="22"></property>-->
+<!--            </bean>-->
+<!--        </property>-->
+
+<!-- list注入，如果泛型是基本数据类型 用value标签，如果是bean,用bean标签-->
+        <property name="hobbies">
+            <list>
+                <value>唱歌</value>
+                <value>跳舞</value>
+                <value>摸鱼</value>
+            </list>
+        </property>
+<!--  map的注入，每一项是一个entry,如果value基本数据类型就这样，如果value是对象，用value-ref -->
+        <property name="course">
+            <map>
+                <entry key="1" value="java"></entry>
+                <entry key="2" value="mysql"></entry>
+                <entry key="3" value="人类的起源"></entry>
+            </map>
+        </property>
+        <property name="details">
+            <map>
+                <entry key="1" value-ref="wife"></entry>
+                <entry key="2" value-ref="wife"></entry>
+            </map>
+        </property>
+    </bean>
+
+</beans>

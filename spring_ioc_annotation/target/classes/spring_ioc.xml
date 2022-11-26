@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+<!--
+@Controller  标记在控制层的类注册为Bean注解
+@Service    业务逻辑层的类
+@Repository 数据访问层
+@Component 标记非三层的普通的类注册为Bean 注解
+  1.底层都是使用了component
+  2.增强可读性   3.利于spring 管理
+-->
+<!--    <bean class="com.xie.controller.UserController" id="userController"></bean>-->
+
+<!--扫描包，让spring感知到 有注解
+    1.排除扫描：<context:exclude-filter 设置需要排除扫描的选项
+    2.包含扫描：<context:include-filter 设置需要包含扫描的选项
+    type: 1.annotation 默认根据注解的完整限定名设置排除\包含
+          2.assignable      根据类的完整限定名设置排除\包含
+          3.aspectj     根据切面表达式来设置
+          4.regex       根据正则表达式
+          5.custom      根据接口的自定义实现
+
+          use-default-filters 默认true 默认会扫描上面的4种注解，如果是false就不回扫描默认的这些
+   设置扫描包 +对应的类名加上对应的注解  就实现了ioc
+
+   使用上面的注解，会自动将类名的首字母小写方式设置为bean的名字
+-->
+    <context:component-scan base-package="com.xie" use-default-filters="true">
+<!--以注解来区分排除，排除Controller 注解标记的-->
+<!--        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+<!--        <context:exclude-filter type="assignable" expression="com.xie.controller.UserController"/>-->
+    </context:component-scan>
+<!--    引用外部属性资源文件，可以通过@Value来获取里面的key值-->
+<context:property-placeholder location="db.properties"></context:property-placeholder>
+</beans>

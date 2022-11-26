@@ -1,0 +1,14 @@
+server:
+  port: 8021
+
+#告诉nacos服务的名称 nacos服务器的地址 有默认值localhost:8848 默认命名空间为public
+#spring:
+#  application:
+#    name: stock-service
+#  cloud:
+#    nacos:
+#      server-addr: 127.0.0.1:8848
+#      discovery:
+#        username: nacos
+#        password: nacos
+#        namespace: dev

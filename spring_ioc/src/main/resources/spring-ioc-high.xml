@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--xml加载这些bean，从上面往下加载-->
+    <!--person依赖wife,这里加载person的时候需要 先加载wife,所以标签里面有depends-on属性 可改变加载顺序
+     -->
+    <bean class="com.xie.beans.User" id="user" depends-on="wife"></bean>
+    <bean class="com.xie.beans.Wife" id="wife"></bean>
+    <!--懒加载 需要使用的时候才加载-->
+    <bean class="com.xie.beans.Wife" id="wife2" lazy-init="true">
+        <property name="name" value="杨幂"></property>
+        <property name="age" value="24"></property>
+    </bean>
+    <!-- 作用域scope 默认singleton 同一个id只会创建一个bean
+         prototype 每使用一次都会创建一个新的回来
+     -->
+    <bean class="com.xie.beans.Person" id="person" scope="prototype">
+    </bean>
+    <!-- 使用静态工厂来实例化bean 方法需要是静态的-->
+    <bean class="com.xie.beans.Person" id="person2" factory-method="createPersonFactory"></bean>
+    <!--抽象工厂 需要自己指定-->
+    <bean class="com.xie.beans.Person" id="person3" factory-bean="factory" factory-method="createPersonMethod"></bean>
+    <bean class="com.xie.beans.PersonFactory" id="factory"></bean>
+    <!--自动注入
+    byType 根据类型来自动注入 如果找到一个类型符合就会注入 如果有两个Wife类型的bean 会直接报错
+    当出现多个类型，
+     可使用byName 根据set方法的名字去匹配
+    constructor 根据构造器匹配 如果构造器需要两个构造参数，但是bean里面只有一个满足，是无法注入的，需要完整匹配
+    自动注入wife 需要加上一个只有wife的构造参数，优先根据有参构造的入参名字去匹配，加入参数名字没有匹配到，会根据参数类型去匹配
+    -->
+    <bean class="com.xie.beans.Person" id="person4" scope="prototype" autowire="constructor">
+
+    </bean>
+    <!--    <bean class="com.xie.beans.Wife" id="wife3"></bean>-->
+</beans>

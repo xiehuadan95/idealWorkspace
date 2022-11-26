@@ -1,0 +1,5 @@
+# 格式是树型结构
+server:
+  port: 8081
+  servlet:
+    context-path: yml

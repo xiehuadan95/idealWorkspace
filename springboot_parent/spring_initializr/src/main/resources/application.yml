@@ -1,0 +1,18 @@
+user:
+  #随机值
+  user-name: ${random.value}
+  age: ${random.int[1,20]}
+  birthday: 2020/01/08
+#  hobbies: [唱歌,跳舞]
+  hobbies:
+    - 唱歌
+    - 跳舞
+    - 游泳
+  girl-friend: {18: 番兵发,20: 迪丽热巴}
+  address:
+    id: 1
+    desc: ${user.user-name}的家在北京
+#  girl-friend:
+#    18 : 李冰冰
+#    20 : 迪丽热巴
+#  支持属性占位符 ${} 不是SPEL表达式

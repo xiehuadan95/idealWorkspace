@@ -1,0 +1,19 @@
+server:
+  port: 8083
+
+#告诉nacos服务的名称 nacos服务器的地址 有默认值localhost:8848 默认命名空间为public
+spring:
+  application:
+    name: stock-service
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        username: nacos
+        password: nacos
+        namespace: public
+        ephemeral: false   #设置为永久实例 即使宕机了nacos也不会删除实例 结合阈值防止服务雪崩使用默认都是临时实例 当健康实例数/总实例数<保护阈值 不健康的实例依然提供给客户用来防止服务雪崩 后续会交给sentinal去处理
+#        metadata:  version=1 可以结合元数据做扩展
+#        service: 默认取 ${spring.application.name} 也可以通过该选项配置
+#        group: 默认DEFAULT_GROUP 更细的分组管理
+#        weight: 权重，通常要结合负载均衡策略

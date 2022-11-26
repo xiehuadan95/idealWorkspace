@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+<!--<persistence version="2.2"-->
+<!--             xmlns="http://xmlns.jcp.org/xml/ns/persistence"-->
+<!--             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence-->
+<!--     http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">-->
+
+    <!--    需要配置persistence‐unit节点 单元
+    持久化单元：可以为hibernate 或者openJPA配置一个持久化单元 需要换哪个实现 就去拿那个name
+    name：持久化单元名称
+    transaction‐type：事务管理的方式
+    JTA：分布式事务管理
+     RESOURCE_LOCAL：本地事务管理 -->
+    <persistence-unit name="hibernateJPA" transaction-type="RESOURCE_LOCAL">
+        <!-- 代表的你是哪一个 jpa的实现 这里是hibernate 如果有多个可加一个持久化单元-->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <!-- 需要进行ORM的POJO类 完整限定名-->
+        <class>com.xie.pojo.Customer</class>
+        <!--    可选配置：配置jpa实现方的配置信息-->
+        <properties>
+            <!--    数据库信息-->
+            <!--        用户名，javax.persistence.jdbc.user-->
+            <!--        密码， javax.persistence.jdbc.password -->
+            <!--        驱动， javax.persistence.jdbc.driver -->
+            <!--        数据库地址 javax.persistence.jdbc.url -->
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="root"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:mysql://localhost:3306/springdata_jpa?serverTimezone=UTC"/>
+            <!--配置jpa实现方(hibernate)的配置信息
+            显示sql ： false|true
+            自动创建数据库表 ： hibernate.hbm2ddl.auto
+            create : 程序运行时创建数据库表（如果有表，先删除表再创建）
+            update ：程序运行时创建表（如果有表，不会创建表）
+            none ：不会创建表-->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        </properties>
+    </persistence-unit>
+<!--openJPA 单元实现-->
+    <persistence-unit name="openJPA" transaction-type="RESOURCE_LOCAL">
+        <!-- 代表的你是哪一个 jpa的实现 这里是openJPA 如果有多个可加一个持久化单元-->
+        <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+        <!-- 需要进行ORM的POJO类 完整限定名-->
+        <class>com.xie.pojo.Customer</class>
+        <!--    可选配置：配置jpa实现方的配置信息-->
+        <properties>
+            <!--    数据库信息-->
+            <!--        用户名，javax.persistence.jdbc.user-->
+            <!--        密码， javax.persistence.jdbc.password -->
+            <!--        驱动， javax.persistence.jdbc.driver -->
+            <!--        数据库地址 javax.persistence.jdbc.url -->
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="root"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:mysql://localhost:3306/springdata_jpa?serverTimezone=UTC"/>
+            <!-- 自动生成数据库表-->
+            <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
+        </properties>
+    </persistence-unit>
+</persistence>
